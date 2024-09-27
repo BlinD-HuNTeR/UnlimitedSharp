@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ImplicitUsings>true</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    
+    <IgnoresAccessChecksAssemblyNames>Microsoft.CodeAnalysis;Microsoft.CodeAnalysis.CSharp</IgnoresAccessChecksAssemblyNames>
+    <UseEmptyMethodBody>false</UseEmptyMethodBody>
+    
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <NoWarn>RS1025;RS1026</NoWarn>
+
+    <PackageId>UnlimitedSharp.GenericInference</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>BlinD-HuNTeR</Authors>
+    <Description>Enables inference of type parameters from constraints and/or from deconstruction variables.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>generic deconstruct infer linq metaprogramming roslyn extensions</PackageTags>
+    <RepositoryUrl>https://github.com/BlinD-HuNTeR/UnlimitedSharp</RepositoryUrl>
+    <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.9.2" PrivateAssets="all" />
+    <PackageReference Include="Easy.Tool.IgnoresAccessChecks" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+  </ItemGroup>
+</Project>
