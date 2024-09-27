@@ -19,6 +19,7 @@
     <Authors>BlinD-HuNTeR</Authors>
     <Description>Enables inference of type parameters from constraints and/or from deconstruction variables.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>generic deconstruct infer linq metaprogramming roslyn extensions</PackageTags>
     <RepositoryUrl>https://github.com/BlinD-HuNTeR/UnlimitedSharp</RepositoryUrl>
     <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
@@ -31,5 +32,6 @@
   
   <ItemGroup>
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Update="README.md" Pack="true" PackagePath="README.md" />
   </ItemGroup>
 </Project>
