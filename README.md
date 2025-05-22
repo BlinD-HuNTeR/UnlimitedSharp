@@ -12,8 +12,9 @@ Just taking notes for myself of the possible next features of this project and t
   - Probably a mix of source generator and type-inference magic, hooking into `MethodTypeInferrer`, like in the GenericInference project.
   
 - Struct lambdas (`ref T where T: struct, IFunc<string, string>`)
-  - Hook into `MethodTypeInferrer` to infer `T` as the generated closure class. Then closure class needs to implement `IFunc<...>`.
-    Requires hooks in lots of places (binding/lowering/emission), some hooks could be done with analyzer but probably lots of compiler patches are required.
+  - Hook into `MethodTypeInferrer` to infer `T` as the generated closure class. Then closure class is changed to struct and implements `IFunc<...>`.
+    ~Requires hooks in lots of places (binding/lowering/emission), some hooks could be done with analyzer but probably lots of compiler patches are required.~
+    It turns out this is easier than I expected, and won't require compiler patches. Preliminar version with delegate as struct (but closure still as class) should be coming soon.
 
 - Named params a.k.a. KwArgs (Allow a method to take arbitrary named arguments, which then become a `Dictionary<string, ...>`)
   - Probably with crazy amounts of source generation, of all the proposals this is probably the less hacky.
