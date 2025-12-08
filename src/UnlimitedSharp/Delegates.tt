@@ -1,0 +1,44 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ output extension=".cs" #>
+using System.Runtime.CompilerServices;
+using static System.Runtime.CompilerServices.MethodImplOptions;
+
+namespace UnlimitedSharp;
+
+//Lambdas are always instance methods, method groups might be static.
+//At this version I'm not adding support for method groups yet. To add support just uncomment the check for null target
+//However this is not an ideal implementation, we don't want to have branching on Delegate.Invoke. A better alternative
+//for static targets could be the wrapping of a regular delegate inside the struct delegate
+<#  for (int i = 1; i <= 16; i++) { #>
+<#  string typeParameters = string.Join(", ", Enumerable.Range(1, i).Select(n => $"T{n}")); #>
+<#  string parameters = string.Join(", ", Enumerable.Range(1, i).Select(n => $"T{n} arg{n}")); #>
+<#  string args = string.Join(", ", Enumerable.Range(1, i).Select(n => $"arg{n}")); #>
+public interface IFunc<<#=typeParameters#>, TResult>
+{
+    public TResult Invoke(<#=parameters#>);
+
+    [method: MethodImpl(AggressiveInlining)]
+    public struct Delegate(object target, nint method) : IFunc<<#=typeParameters#>, TResult>
+    {
+        [MethodImpl(AggressiveInlining)]
+        public unsafe TResult Invoke(<#=parameters#>) => //target is null ? ((delegate* managed<<#=typeParameters#>, TResult>)method)(<#=args#>) :
+                ((delegate* managed<object, <#=typeParameters#>, TResult>)method)(target, <#=args#>);
+    }
+}
+
+public interface IAction<<#=typeParameters#>>
+{
+    public void Invoke(<#=parameters#>);
+
+    [method: MethodImpl(AggressiveInlining)]
+    public struct Delegate(object target, nint method) : IAction<<#=typeParameters#>>
+    {
+        [MethodImpl(AggressiveInlining)]
+        public unsafe void Invoke(<#=parameters#>) { //if (target is null) ((delegate* managed<<#=typeParameters#>, void>)method)(<#=args#>); else
+                ((delegate* managed<object, <#=typeParameters#>, void>)method)(target, <#=args#>); }
+    }
+}
+
+<#  } #>

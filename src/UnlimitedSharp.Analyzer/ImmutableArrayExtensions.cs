@@ -8,5 +8,8 @@ namespace UnlimitedSharp
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void InPlaceInsert<T>(ref this ImmutableArray<T> self, int index, T item) 
             => self = self.Insert(index, item);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ref T Ref<T>(ref this ImmutableArray<T> self, int index) => ref Unsafe.AsRef(in self.AsSpan()[index]);
     }
 }
