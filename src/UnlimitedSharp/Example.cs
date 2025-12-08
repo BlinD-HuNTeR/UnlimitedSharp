@@ -16,8 +16,8 @@ namespace UnlimitedSharp
                 Console.WriteLine(u);
         }
 
-        public static V UseValueDelegate<T, U, V>(U u, ref T func)
-            where T : struct, IFunc<U, V> => func.Invoke(u);
+        public static TResult UseValueDelegate<TArg, TResult, TLambda>(TArg u, ref TLambda func)
+            where TLambda : struct, IFunc<TArg, TResult> => func.Invoke(u);
 
         public static void Main(string[] args)
         {
@@ -39,14 +39,14 @@ namespace UnlimitedSharp
             Example.Constrain(list); //inferred Constrain<List<int>, int>
 
             //Non-capturing lambda
-            Console.WriteLine(Example.UseValueDelegate(123, i => i.ToString()));
+            Console.WriteLine(Example.UseValueDelegate(123, static i => i.ToString()));
 
             //Capturing lambda
             int x = 0;
             Console.WriteLine(Example.UseValueDelegate(42, i => { x = i; return "captured variable modified"; }));
             Console.WriteLine(x.ToString());
 
-            //Testing methodgroups
+            //To test method groups, modify Delegates.tt and PromoteValueDelegates in the analyzer
             //Console.WriteLine(Example.UseValueDelegate("NOT NULL!", MethodGroup));
             //Console.WriteLine(Example.UseValueDelegate(new DataTable(), MethodGroup));
             //Console.WriteLine(Example.UseValueDelegate(123, MethodGroup));
